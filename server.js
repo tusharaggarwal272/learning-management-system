@@ -17,9 +17,9 @@ app.use('/api/users', userRouter);
 app.use('/users/verification', authRouter);
 app.use('/api/courses', courseRouter);
 app.use('/api/courses/videos', videoRouter);
-app.get('/', (req, res) => {
-    console.log("Hello from world");
-})
+// app.get('/', (req, res) => {
+//     console.log("Hello from world");
+// })
 
 
 
