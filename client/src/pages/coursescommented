@@ -1,0 +1,29 @@
+<div className="courses-list">
+                            <div className="courses-allList">
+                                <div className="courses-info">
+                                    {/* photo */}
+                                </div>
+                                <div className="courses-title">
+                                    <div className="courses-name">Sample 1</div>
+                                    <div className="courses-status">Not Published</div>
+                                </div>
+                            </div>
+                            <div className="courses-allList">
+                                <div className="courses-info">
+                                    {/* photo */}
+                                </div>
+                                <div className="courses-title">
+                                    <div className="courses-name">Sample 2</div>
+                                    <div className="courses-status">Not published</div>
+                                </div>
+                            </div>
+                            <div className="courses-allList">
+                                <div className="courses-info">
+                                    {/* photo */}
+                                </div>
+                                <div className="courses-title">
+                                    <div className="courses-name">Sample 3</div>
+                                    <div className="courses-status">Not Published</div>
+                                </div>
+                            </div>
+                        </div>

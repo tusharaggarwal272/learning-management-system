@@ -1,0 +1,126 @@
+.users-main{
+    /* border: 4px solid black; */
+    height: 100vh;
+    background-color: #f9fafb;
+}
+.users-self{
+    /* border: 4px solid red; */
+    text-align: right;
+    padding: 12px;
+    margin: 12px;
+}
+.users-content{
+    /* border: 4px solid blue; */
+    margin: 12px;
+    text-align: left;
+    padding: 12px;
+}
+.users-heading{
+    /* border: 4px solid orange; */
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.users-heading-left{
+    /* border: 3px solid black; */
+    display: flex;
+}
+.users-heading-right{
+    /* border: 3px solid black; */
+    display: flex;
+    width: 25%;
+    justify-content: center;
+}
+.users-title{
+    /* border: 3px solid black; */
+    text-align: center;
+}
+.users-count{
+    /* border: 3px solid black; */
+    text-align: center;
+    padding-left: 12px;
+    color: grey;
+    padding-top: 30%;
+}
+.users-option{
+    /* border: 3px solid blue; */
+    margin-right: 0px;
+    width: 25%;
+    text-align: center;
+    font-weight: bold;
+    margin: 8px;
+    padding: 5px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
+    border-radius: 0.375rem;
+    /* overflow: hidden;
+    box-sizing: border-box; */
+    display: flex;
+    justify-content: center;
+}
+.users-option-icon{
+    /* border: 2px solid red; */
+    margin-right: 3px;
+    display: flex;
+    align-items: center;
+}
+.users-option-info{
+    /* border: 2px solid red; */
+    display: flex;
+    align-items: center;
+}
+.users-list{
+    /* border: 4px solid green; */
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
+
+}
+.users-listHead{
+    /* border: 4px solid yellow; */
+    box-sizing: border-box;
+    overflow: none;
+    /* border: 1px solid grey; */
+    /* box-shadow: ; */
+}
+.users-listHead>ul{
+    display: flex;
+    /* border: 4px solid black; */
+    font-weight: bold;
+    list-style-type: none;
+}
+.users-listHead >ul >li{
+    /* border: 2px solid orange; */
+    font-weight: bold;
+    /* margin: 2px; */
+    padding: 8px;
+    width: 33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.users-listAll{
+    /* border: 4px solid blue; */
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: #ffffff;
+}
+.users-listAll>ul{
+    display: flex;
+    /* border: 4px solid black; */
+    font-weight: bold;
+    list-style-type: none;
+    text-align: center;
+}
+.users-listAll >ul >li{
+    /* border: 2px solid orange; */
+    font-weight: bold;
+    margin: 0;
+    padding: 8px;
+    width: 33%;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
