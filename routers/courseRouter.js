@@ -17,7 +17,7 @@ const awsconfig = {
     apiVersion: process.env.AWS_API_VERSION,
 };
 
-const S3 = AWS.S3(awsconfig);
+const S3 = new AWS.S3(awsconfig);
 
 
 router.post('/user/courses/:useremail/newcourse', async (req, res) => {
