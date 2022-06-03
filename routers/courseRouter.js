@@ -30,7 +30,7 @@ const formidable = require('express-formidable');
 
 
 
-const s3 = new AWS.S3(awsconfig);
+// const s3 = new AWS.S3(awsconfig);
 
 // const s3 = new S3Client(config);
 
