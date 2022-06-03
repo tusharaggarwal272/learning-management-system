@@ -166,7 +166,7 @@ function ParticularCourse() {
                                 videos.map((v) => (
                                     <Grid key={v._id} item md={3} sm={12}  >
                                         <Card>
-                                            <CardActionArea>
+                                            <CardActionArea sx={{ display: 'flex', flexDirection: 'column' }}>
                                                 <CardMedia
                                                     src={v.link}
                                                     component="video"

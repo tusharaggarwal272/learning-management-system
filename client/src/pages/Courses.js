@@ -108,7 +108,7 @@ const Courses = () => {
                                     courses.map((course) => (
                                         <Grid key={course._id} item md={3} sm={12} sx={{ margin: '2%' }}>
                                             <Card onClick={e => handleCourseClick(e, course._id)}>
-                                                <CardActionArea>
+                                                <CardActionArea sx={{ display: 'flex', flexDirection: 'column' }}>
                                                     <CardMedia
                                                         src='https://www.coe.int/documents/9558393/53556644/745932934.jpg/b9ddd436-94a9-40fa-c9b3-0e2db8f26c51'
                                                         component="img"

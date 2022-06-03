@@ -10,6 +10,8 @@ const courseRouter = require('./routers/courseRouter');
 const videoRouter = require('./routers/videoRouter');
 const path = require('path');
 
+
+app.use(express.json());
 app.use(express.json({ limit: '10mb' }));
 // app.use(express.urlencoded({ extended: true }))
 
