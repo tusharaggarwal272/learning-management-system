@@ -5,19 +5,34 @@ const Course = require('../models/courses');
 const router = express();
 const formidable = require('express-formidable');
 // import AWS from 'aws-sdk';
-const S3 = require('aws-sdk/clients/s3');
-const { nanoid } = require('nanoid');
-const { readFileSync } = require("fs");
+// const AWS = require("aws-sdk");
+// const { nanoid } = require('nanoid');
+// const { readFileSync } = require("fs");
 
 
-const awsconfig = {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: process.env.AWS_REGION,
-    apiVersion: process.env.AWS_API_VERSION,
-};
+// const awsconfig = {
+//     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+//     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+//     region: process.env.AWS_REGION,
+//     apiVersion: process.env.AWS_API_VERSION,
+// };
 
-const s3 = new S3(awsconfig);
+// const credentials = {
+//     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+//     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+// };
+// const config = {
+//     region: process.env.AWS_REGION,
+//     credentials,
+// }
+
+
+
+
+
+const s3 = new AWS.S3(awsconfig);
+
+// const s3 = new S3Client(config);
 
 
 router.post('/user/courses/:useremail/newcourse', async (req, res) => {
@@ -53,60 +68,76 @@ router.post('/user', async (req, res) => {
 
 
 
-router.post('/video-upload', formidable(), async (req, res) => {
-    // console.log('in video upload part')
-    // return res.status(200).json({ msg: 'video is being uploaded' });
-    try {
-        const { video } = req.files;
-        console.log(video);
+// router.post('/video-upload', formidable(), async (req, res) => {
+//     // console.log('in video upload part')
+//     // return res.status(200).json({ msg: 'video is being uploaded' });
+//     try {
+//         const { video } = req.files;
+//         console.log(video);
 
-        if (!video) return res.status(400).send("No Video")
+//         if (!video) return res.status(400).send("No Video")
 
-        const params = {
-            Bucket: "lmsdanaliticbucket",
-            Key: `${nanoid()}.${video.type.split("/")[1]}`,
-            Body: readFileSync(video.path),
-            ACL: "public-read",
-            ContentType: video.type,
-        };
-        // console.log(params);
+//         const params = {
+//             Bucket: "lmsdanaliticbucket",
+//             Key: `${nanoid()}.${video.type.split("/")[1]}`,
+//             Body: readFileSync(video.path),
+//             ACL: "public-read",
+//             ContentType: video.type,
+//         };
+//         // console.log(params);
 
-        s3.upload(params, (err, data) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(400);
-            }
-            console.log(data);
-            res.send(data);
-        });
-    } catch (error) {
-        console.log(error.message);
-    }
+//         // const putObjectCommand = new PutObjectCommand(params);
 
-})
-router.post('/video-remove', async (req, res) => {
-    try {
-        const { video } = req.body;
-        const params = {
-            Bucket: video.Bucket,
-            Key: video.Key
-        }
+//         s3.upload(params, (err, data) => {
+//             if (err) {
+//                 console.log(err);
+//                 res.sendStatus(400);
+//             }
+//             console.log(data);
+//             res.send(data);
+//         });
 
-        s3.deleteObject(params, (err, data) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(400);
-            }
-            console.log(data);
-            res.send({ ok: true });
-        });
 
-        // console.log(video);
-        // return res.status(200).send("trying to remove the video");
-    }
-    catch (err) {
-        console.log(err.message);
-    }
-})
+//         // s3.send(putObjectCommand).then(data => {
+//         //     // do something
+//         //     console.log(data);
+//         //     res.send(data);
+//         // }).catch(error => {
+//         //     // error handling
+//         //     console.log(error);
+//         //     res.sendStatus(400);
+//         // })
+
+//     } catch (error) {
+//         console.log(error.message);
+//     }
+
+
+
+// })
+// router.post('/video-remove', async (req, res) => {
+//     try {
+//         const { video } = req.body;
+//         const params = {
+//             Bucket: video.Bucket,
+//             Key: video.Key
+//         }
+
+//         s3.deleteObject(params, (err, data) => {
+//             if (err) {
+//                 console.log(err);
+//                 res.sendStatus(400);
+//             }
+//             console.log(data);
+//             res.send({ ok: true });
+//         });
+
+//         // console.log(video);
+//         // return res.status(200).send("trying to remove the video");
+//     }
+//     catch (err) {
+//         console.log(err.message);
+//     }
+// })
 
 module.exports = router;
