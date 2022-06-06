@@ -217,7 +217,7 @@ function Home() {
   return (
 
     <Box sx={{ position: 'relative', display: 'flex', width: '100vw', height: '100vh', overflowX: 'hidden' }}>
-      <Box>
+      <Box >
         <MenuBar />
       </Box>
 
@@ -227,7 +227,7 @@ function Home() {
       <Box sx={{ width: '80vw', height: '100%', position: 'absolute', right: '0%' }}>
 
         <>
-          <Button sx={{ position: 'absolute', top: '2%', right: '5%' }} onClick={handleLogout}>Logout</Button>
+          <Button sx={{ position: 'absolute', top: '2%', left: '90%' }} onClick={handleLogout}>Logout</Button>
           <div>
             <div className="top-heading">
               <h1> Hi, Antrixsh 👋</h1>

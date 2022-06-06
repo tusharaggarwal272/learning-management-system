@@ -1,5 +1,5 @@
 import React from 'react'
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Box } from '@mui/system';
 import { Button, Typography, TextField } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -22,7 +22,7 @@ import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import AbcIcon from '@mui/icons-material/Abc';
+import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 
 
 const style2 = {
@@ -52,8 +52,10 @@ function ParticularCourse() {
     const [UploadVideoButton, SetUploadVideoButton] = useState('Upload Video');
     const [progress, setProgress] = useState(0);
     const [courseName, setCourseName] = useState('');
-    const [chapters, setChapters] = useState([]);
+    const [courseDescription, setCourseDescription] = useState('');
     const [loading, setloading] = useState(false);
+    const [videos, setVideos] = useState([]);
+
     const handleClose = (e) => {
         e.preventDefault();
         setVideoModal(false);
@@ -61,30 +63,27 @@ function ParticularCourse() {
 
     useEffect(() => {
         setloading(true);
-        axios.post('/api/courses/findCourseDetails', { courseid: params.courseid }).then((res) => {
+        axios.post('/api/courses/findChapterdetail', { chapterid: params.chapterid }).then((res) => {
             // console.log(res);
-
             console.log(res.data);
             setCourseName(res.data.name);
-            setChapters(res.data.chapters)
-
-
+            setCourseDescription(res.data.description);
+            setVideos(res.data.videos);
 
             // let date = new Date(res.data.chapters[0].createdAt);
             // console.log(chapter.createdAt.toUTCString());
             // setVideos(res.data.videos);
             setloading(false);
+
         }).catch((err) => {
             console.log(err);
             setloading(false);
         })
 
         return () => {
-            setChapters([])// This worked for me
+            setVideos([])// This worked for me
         };
     }, []);
-
-
 
 
 
@@ -145,8 +144,8 @@ function ParticularCourse() {
                 title: title,
                 description: description,
                 video: video.Location,
-                course: courseName,
-                courseid: params.courseid
+                chapter: courseName,
+                chapterid: params.chapterid
             }
             console.log(videoDetail);
             await axios.post('/api/courses/videos/video-upload', { video: videoDetail }).then((res) => {
@@ -162,22 +161,11 @@ function ParticularCourse() {
         }
     }
 
-    const handleAddChapter = (e) => {
-        e.preventDefault();
-        window.location.href = (`/courses/${params.courseid}/newchapter`);
-    }
-
-    const handleChapterClick = (id) => {
-        window.location.href = (`/courses/${params.courseid}/${id}`);
-    }
     if (loading) {
-        return <Box sx={{ display: 'flex', width: '100%', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
+        return <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <CircularProgress />
         </Box>
-
     }
-
-
 
     return (
 
@@ -187,56 +175,17 @@ function ParticularCourse() {
             </Box>
             {/* sx={{ width: '80vw', height: '100%', position: 'absolute', right: '0%' }} */}
             <div style={{ width: '80vw', height: '100%', overflowX: 'hidden', position: 'absolute', right: '0%', display: 'flex', justifyContent: 'center', flexDirection: 'column', padding: '0' }}>
-                <Box sx={{ position: 'absolute', top: '5%', right: '5%' }}><Button onClick={handleAddChapter} variant='contained'>Add Chapter +</Button></Box>
-                <Typography sx={{ textAlign: 'center', color: 'blue', fontSize: '4em', position: 'absolute', top: '2%', left: '2%' }}>{capitalize(courseName)}</Typography>
-                <Box sx={{ background: '#ccc', width: '90%' }}>
+
+                {/* <Box sx={{ position: 'absolute', top: '5%', right: '5%' }}><Button onClick={handleAddChapter} variant='contained'>Add Chapter +</Button></Box> */}
+                <Box sx={{ height: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'center' }}>
+                    <Typography sx={{ width: '100%', textAlign: 'center', color: 'blue', fontSize: '2em' }}>{capitalize(courseName)}</Typography>
+                    <Typography><SubdirectoryArrowRightIcon /> {courseDescription}</Typography>
+                </Box>
+                <Box sx={{ width: '90%' }}>
+
 
                     {
-                        chapters.length > 0 && <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-
-                            {
-                                chapters.map((chapter, idx) => (
-
-                                    <Box key={idx} sx={{ width: '100%' }} onClick={() => handleChapterClick(chapter._id)}>
-                                        <ListItem sx={{ width: '100% ', boxShadow: "2px 2px 2px  #9E9E9E", margin: '1%', cursor: 'pointer' }}>
-                                            <ListItemAvatar>
-                                                <Avatar alt="Remy Sharp" sx={{ bgcolor: 'green' }} ><AbcIcon /></Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                // {
-                                                // let date=new Date(chapter.createdAt);
-                                                // }
-                                                primary={
-                                                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                        <Typography sx={{ color: 'blue' }}>{capitalize(chapter.name)}</Typography>
-                                                        <Typography sx={{ color: 'black' }}>{new Date(chapter.createdAt).toUTCString()}</Typography>
-                                                    </Box>
-                                                }
-                                                secondary={
-                                                    <React.Fragment>
-                                                        <Typography
-                                                            sx={{ display: 'inline' }}
-                                                            component="span"
-                                                            variant="body2"
-                                                            color="text.primary"
-                                                        >
-                                                            what this chapter contains:
-                                                        </Typography>
-                                                        <Typography sx={{ color: 'black' }}>{capitalize(chapter.description)}</Typography>
-                                                    </React.Fragment>
-                                                }
-
-                                            />
-                                        </ListItem>
-                                        <Divider variant="inset" component="li" />
-                                    </Box>
-                                ))
-
-                            }
-                        </List>
-                    }
-                    {/* {
-                        videos.length > 0 && <Grid container spacing={1} sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+                        videos && videos.length > 0 && <Grid container spacing={1} sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
                             {
                                 videos.map((v) => (
                                     <Grid key={v._id} item md={3} sm={12}  >
@@ -268,7 +217,7 @@ function ParticularCourse() {
                                 ))
                             }
                         </Grid>
-                    } */}
+                    }
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '10%' }}>
                     <Button sx={{ marginBottom: '4%', width: '80%' }} variant='contained' onClick={(e) => {

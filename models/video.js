@@ -5,7 +5,7 @@ const videoSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    courseName: {
+    chapterName: {
         type: String,
         required: true,
         trim: true

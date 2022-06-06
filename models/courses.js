@@ -15,10 +15,10 @@ const courseSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    videos: [
+    chapters: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Video'
+            ref: 'Chapter'
         }
     ]
 }, {
