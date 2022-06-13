@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useState, useRef } from 'react';
 import { Box } from '@mui/system';
-import { Button, Typography, TextField } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -54,12 +54,21 @@ function ParticularCourse() {
     const [courseName, setCourseName] = useState('');
     const [chapters, setChapters] = useState([]);
     const [loading, setloading] = useState(false);
+    const [course, setCourse] = useState({});
+    const [user, setUser] = useState({});
     const handleClose = (e) => {
         e.preventDefault();
         setVideoModal(false);
     }
 
+    if (!JSON.parse(localStorage.getItem('user'))) {
+        window.location.href = '/login';
+    }
+
+
+
     useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem('user')));
         setloading(true);
         axios.post('/api/courses/findCourseDetails', { courseid: params.courseid }).then((res) => {
             // console.log(res);
@@ -67,7 +76,7 @@ function ParticularCourse() {
             console.log(res.data);
             setCourseName(res.data.name);
             setChapters(res.data.chapters)
-
+            setCourse(res.data);
 
 
             // let date = new Date(res.data.chapters[0].createdAt);
@@ -88,79 +97,10 @@ function ParticularCourse() {
 
 
 
-    const handleVideoFile = async (e) => {
-        e.preventDefault();
-        setUploading(true);
-        try {
-            const file = e.target.files[0];
-            SetUploadVideoButton(file.name);
-            // console.log(file);
-            const videoData = new FormData();
-            videoData.append("video", file);
-            console.log(videoData);
-            const { data } = await axios.post('/api/courses/video-upload', videoData, {
-                onUploadProgress: (e) => {
-                    setProgress(Math.round((100 * e.loaded) / e.total));
-                }
-            });
-            console.log(data);
-            setVideo(data);
-            setUploading(false);
-
-        } catch (error) {
-            console.log("Error while uploading the Video", error.message);
-            // toast("Video Upload failed")
-            setUploading(false);
-
-        }
-    }
 
 
-    const handleVideoRemove = async () => {
-        try {
-            setUploading(true);
-            console.log(video);
-            const { data } = await axios.post('/api/courses/video-remove', { "video": video });
-            setVideo();
-            console.log(data);
-            setUploading(false);
-            setProgress(0);
-            SetUploadVideoButton("Upload Another Video");
-        } catch (error) {
-            setUploading(false);
-            console.log("Error while removing the Video", error.message);
-        }
-    }
 
-    const handleAddVideo = async (e) => {
-        if (title.trim() === '') {
-            alert("Title cannot be empty");
-            return;
-        }
-        e.preventDefault();
-        console.log("Clicked the handleAdd video part")
-        setUploading(true);
-        try {
-            const videoDetail = {
-                title: title,
-                description: description,
-                video: video.Location,
-                course: courseName,
-                courseid: params.courseid
-            }
-            console.log(videoDetail);
-            await axios.post('/api/courses/videos/video-upload', { video: videoDetail }).then((res) => {
-                console.log(res);
-                window.location.reload();
-            }).catch((err) => {
-                console.log(err);
-            })
-            setUploading(false);
-        } catch (error) {
-            setUploading(false);
-            console.log(error.message);
-        }
-    }
+
 
     const handleAddChapter = (e) => {
         e.preventDefault();
@@ -177,6 +117,25 @@ function ParticularCourse() {
 
     }
 
+    const handleCourseStatus = (e) => {
+        // console.log(e);
+        // console.log("You clicked the course");
+        setloading(true);
+        try {
+            axios.put('/api/courses/publishunpublishcourse', { courseid: params.courseid }).then((res) => {
+                // console.log(res);
+                setCourse(res.data);
+
+            }).catch((err) => {
+                console.log(err.message);
+            })
+            setloading(false);
+        } catch (error) {
+            console.log(error.message);
+            setloading(false);
+        }
+    }
+
 
 
     return (
@@ -186,10 +145,17 @@ function ParticularCourse() {
                 <MenuBar />
             </Box>
             {/* sx={{ width: '80vw', height: '100%', position: 'absolute', right: '0%' }} */}
-            <div style={{ width: '80vw', height: '100%', overflowX: 'hidden', position: 'absolute', right: '0%', display: 'flex', justifyContent: 'center', flexDirection: 'column', padding: '0' }}>
-                <Box sx={{ position: 'absolute', top: '5%', right: '5%' }}><Button onClick={handleAddChapter} variant='contained'>Add Chapter +</Button></Box>
-                <Typography sx={{ textAlign: 'center', color: 'blue', fontSize: '4em', position: 'absolute', top: '2%', left: '2%' }}>{capitalize(courseName)}</Typography>
-                <Box sx={{ background: '#ccc', width: '90%' }}>
+            <div style={{ width: '80vw', height: '100%', overflowX: 'hidden', position: 'absolute', right: '2%', display: 'flex', justifyContent: 'space-around', flexDirection: 'column', padding: '0' }}>
+                <Box sx={{ position: 'absolute', top: '5%', right: '5%' }}>
+                    <Button onClick={(e) => { handleCourseStatus(e) }} sx={{ margin: '1%', cursor: 'pointer' }} variant='contained'>{course.published ? "UnPublish" : "Publish"}</Button>
+                    <Button onClick={handleAddChapter} variant='contained'>Add Chapter +</Button>
+                    {/* <Button variant="contained">+ Add Chapter</Button> */}
+
+
+                </Box>
+                <Typography sx={{ textAlign: 'start', color: 'blue', fontSize: '4em', position: 'absolute', top: '2%', left: '2%' }}>{capitalize(courseName)}</Typography>
+                {course && course.overview && <Typography>{course.overview}</Typography>}
+                <Box sx={{ background: '#ccc', width: '100%' }}>
 
                     {
                         chapters.length > 0 && <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
@@ -235,87 +201,11 @@ function ParticularCourse() {
                             }
                         </List>
                     }
-                    {/* {
-                        videos.length > 0 && <Grid container spacing={1} sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
-                            {
-                                videos.map((v) => (
-                                    <Grid key={v._id} item md={3} sm={12}  >
-                                        <Card>
-                                            <CardActionArea sx={{ display: 'flex', flexDirection: 'column' }}>
-                                                <CardMedia
-                                                    src={v.link}
-                                                    component="video"
-                                                    autoPlay
-                                                    controls
-                                                    height="140"
-
-                                                />
-                                                <CardContent>
-                                                    <Typography gutterBottom variant="h5" component="div">
-                                                        {capitalize(v.title)}
-                                                    </Typography>
-                                                    <Typography variant="body2" color="#ccc">
-                                                        {
-                                                            v.description
-
-                                                        }
-                                                    </Typography>
-                                                </CardContent>
-                                            </CardActionArea>
-                                        </Card>
-
-                                    </Grid>
-                                ))
-                            }
-                        </Grid>
-                    } */}
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '10%' }}>
-                    <Button sx={{ marginBottom: '4%', width: '80%' }} variant='contained' onClick={(e) => {
-                        e.preventDefault();
-                        setVideoModal(true)
-                    }}> <CloudUploadIcon /> &nbsp; Add Video Lesson</Button>
 
                 </Box>
 
 
-                <Modal open={videoModal} onClose={handleClose}>
-                    <Box sx={style2}>
 
-                        <Typography>Uploading the Video Lesson</Typography>
-                        <TextField sx={{ padding: '2%', width: '100%' }} value={title} placeholder='Enter the title of the Video Lesson' onChange={(e) => { setTitle(e.target.value) }}></TextField>
-                        {/* <TextareaAutosize value={description} placeholder='Description...' onChange={(e) => { setDescription(e.target.value) }} /> */}
-                        <textarea
-                            // sx={{ padding: '2%', width: '150%' }}
-                            rows={7}
-                            cols={60}
-                            value={description}
-                            // aria-label="empty textarea"
-                            placeholder="Enter the Description for the Lesson"
-                            // style={{ width: 200 }}
-                            onChange={(e) => { setDescription(e.target.value) }}
-
-                        />
-                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-                            <label style={{ background: 'black', color: 'white', width: '100%', padding: '2%', margin: '2%', display: 'flex', justifyContent: 'space-around' }} >
-                                {UploadVideoButton}
-                                <input onChange={handleVideoFile} type={"file"} accept="video/*" hidden />
-                                {
-                                    progress === 100 && <Button variant='contained' ><CancelIcon onClick={handleVideoRemove} /></Button>
-                                }
-                            </label>
-                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-                                <Box sx={{ width: '100%', margin: '0' }}>{(progress > 0 && progress !== 100) && <LinearProgress value={progress} />}</Box>
-                                {(progress > 0 && progress !== 100) && <Typography>{progress}%</Typography>}
-
-                            </Box>
-                        </Box>
-
-                        <Button disabled={Uploading} sx={{ margin: '2%', width: '100%' }} variant='contained' fullWidth onClick={handleAddVideo}>SAVE</Button>
-
-                    </Box>
-
-                </Modal>
             </div>
         </Box>
 

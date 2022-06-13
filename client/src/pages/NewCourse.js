@@ -16,6 +16,8 @@ function NewCourse() {
     }
 
     const [courseName, setCourseName] = useState('');
+    const [overview, setOverview] = useState('');
+    const [price, setPrice] = useState(0);
 
     const handleChange = (e) => {
         console.log(e);
@@ -34,6 +36,8 @@ function NewCourse() {
         const course = {
             owneremail: user.email,
             coursename: courseName,
+            overview: overview,
+            price: price
         }
         axios.post(`/api/courses/user/courses/${user.email}/newcourse`, course).then((res) => {
             console.log(res);
@@ -64,6 +68,13 @@ function NewCourse() {
                     <Box sx={{ width: '60%', height: '70%', borderRadius: '10px', border: '1px solid #ccc', display: 'flex', background: '#FAFAFA', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                         <Typography sx={{ fontSize: '120%', marginLeft: '5%', width: '100%', textAlign: 'start', marginTop: '5%' }}>Name of the course</Typography>
                         <TextField onChange={(e) => handleChange(e.target.value)} size="small" sx={{ width: '95%' }} value={courseName}></TextField>
+                        <Typography sx={{ fontSize: '120%', marginLeft: '5%', width: '100%', textAlign: 'start', marginTop: '5%' }}>Overview of the course</Typography>
+                        <TextField onChange={(e) => setOverview(e.target.value)} size="small" sx={{ width: '95%' }} value={overview}></TextField>
+
+
+                        <Typography sx={{ fontSize: '120%', marginLeft: '5%', width: '100%', textAlign: 'start', marginTop: '5%' }}>Price of the course</Typography>
+                        <TextField paragraph onChange={(e) => setPrice(e.target.value)} size="small" sx={{ width: '95%' }} value={price}></TextField>
+
                         <Box sx={{ width: '95%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', margin: '1%', alignItems: 'flex-end', marginTop: '4%' }}>
                             <Button sx={{ margin: '0.5%' }} onClick={handleCancelClick}>Cancel</Button>
                             <Button sx={{ margin: '0.5%' }} onClick={handleCreateClick} variant="contained">Create</Button>

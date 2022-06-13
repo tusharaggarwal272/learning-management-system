@@ -18,18 +18,17 @@ function Footer() {
 
 
             <Box sx={{ width: '96%', height: '50%', background: '#1F3965', display: 'flex', padding: '2%' }}>
-                <Grid container md={4} sm={12} >
-                    <Grid item md={12} sx={{ margin: '8% auto', marginBottom: '0%' }} textAlign='center'> <img style={{ background: 'white', width: '40%', padding: '2px' }} src='https://pu.tmcdn.in/defaults/landing_v3/static2/images/early-access/logo.svg' /></Grid>
-                    <Grid item md={12} textAlign='center' sx={{ lineHeight: '0' }} >
-                        <p style={{ color: '#ffffff', margin: '0' }}>Create and sell online courses with your own
-                        </p>
+                <Grid container rowspacing={0} md={4} sm={12} >
+                    <Grid item md={12} textAlign='center' > <img style={{ border: '2px solid yellow', height: '70%', background: 'white', width: '40%' }} src='https://ci3.googleusercontent.com/mail-sig/AIorK4wiwh6LmuTfQxugzS0pNOn48pzjUoScND6vr9cHmRxNzYkP8x20sZlRFFqyLt39Qtg1iJP2Vyc' /></Grid>
+                    <Grid item md={12} textAlign='center'  >
+                        <p style={{ color: '#ffffff', margin: '0' }}>Create and sell online courses with your own</p>
                     </Grid>
-                    <Grid item md={12} textAlign='center' sx={{ lineHeight: '0' }}>
+                    <Grid item md={12} textAlign='center' >
                         <p style={{ color: '#ffffff', margin: '0' }}>   fully-featured mobile apps and website.</p>
                     </Grid>
-                    <Grid item md={12} textAlign='center' sx={{ lineHeight: '0' }}>
+                    {/* <Grid item md={12} textAlign='center' sx={{ lineHeight: '0' }}>
                         <p style={{ color: '#ffffff', margin: '0' }}> Don't miss out on sales for not having mobile apps!</p>
-                    </Grid>
+                    </Grid> */}
                     <Grid item md={12} textAlign='center'>
                         < LinkedInIcon sx={{ color: '#ffffff', border: '2px solid white', margin: '1%' }} />
                         < FacebookIcon sx={{ color: '#ffffff', border: '2px solid white', margin: '1%' }} />
@@ -63,11 +62,11 @@ function Footer() {
 
                 </Grid>
                 <Grid container md={4} sm={12} textAlign='start'>
-                    {/* <Grid container md={4} sx={{ border: '2px solid black' }}> */}
+                    {/* <Grid container md={4} > */}
                     <Grid item md={12} textAlign='center'><h1 style={{ color: 'white' }}>Contact Us</h1></Grid>
-                    <Grid item md={12} sx={{ color: 'white' }} ><LocationOnIcon />Teachmint Technologies Private Limited Enzyme Park View #1604, 1st Floor 25th Main, 22nd Cross Rd, Sector 2, HSR Layout, Bengaluru, Karnataka 560102</Grid>
-                    <Grid item md={12} sx={{ color: 'white' }} textAlign='center'><EmailIcon />hello@teachmore.com</Grid>
-                    <Grid item md={12} sx={{ color: 'white' }} textAlign='center'><CallIcon />08035242274 (8 AM - 8 PM Everyday)</Grid>
+                    <Grid item md={12} sx={{ color: 'white' }} ><LocationOnIcon />U-SMART AI LAB PRIVATE LIMITED, 2nd Floor, Jai Ganesh Vishwa, Office No. 301 & 302, Airport Rd, Vishrantwadi, Pune, Maharashtra 411015</Grid>
+                    <Grid item md={12} sx={{ color: 'white' }} textAlign='center'><EmailIcon />contact@u-smart.ai</Grid>
+                    <Grid item md={12} sx={{ color: 'white' }} textAlign='center'><CallIcon />	+91-20-4603-2058 | +91-97257-93452 (8 AM - 8 PM Everyday)</Grid>
                     {/* </Grid> */}
                 </Grid>
 

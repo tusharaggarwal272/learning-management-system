@@ -7,6 +7,15 @@ const courseSchema = new mongoose.Schema({
         lowercase: true,
         unique: true
     },
+    overview: {
+        type: String,
+        trim: true
+    },
+    price: {
+        type: Number,
+        default: 0,
+        min: 0,
+    },
     owner: {
         type: String,
         lowercase: true
@@ -20,7 +29,14 @@ const courseSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Chapter'
         }
+    ],
+    quizes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Quiz'
+        }
     ]
+
 }, {
     timestamps: true
 });

@@ -1,34 +1,57 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import './Login.css'
-import axios from 'axios'
+import axios from 'axios';
+import LoginOption from './LoginOption';
 function Login() {
 
     const [userdetails, setuserDetails] = useState({
         email: '',
         password: ''
     })
+    const [loginAs, setLoginAs] = useState('');
+
     const handlechange = (data) => {
         setuserDetails({ ...userdetails, ...data })
     }
     const handleLogin = (e) => {
         e.preventDefault();
-        // console.log(userdetails);
-        //    const res=await axios.post('/api/users/login',userdetails)
-        axios.post('/api/users/login', userdetails).then((res) => {
-            if (res.data.msg == "Login success") {
 
-                localStorage.setItem('user', JSON.stringify(res.data));
-                window.open("/home")
-            }
-            console.log(res);
-        }).catch((err) => {
-            console.log(err);
-        })
+        if (loginAs === "Instructor") {
+            axios.post('/api/users/login/instructor', userdetails).then((res) => {
+                if (res.data.msg == "Login success") {
+
+                    localStorage.setItem('user', JSON.stringify(res.data));
+                    window.open("/home")
+                }
+                console.log(res);
+            }).catch((err) => {
+                console.log(err);
+            })
+        }
+        else if (loginAs === "Student") {
+            axios.post('/api/users/login/student', userdetails).then((res) => {
+                if (res.data.msg == "Login success") {
+                    localStorage.setItem('user', JSON.stringify(res.data));
+                    window.open("/home")
+                }
+                console.log(res);
+            }).catch((err) => {
+                console.log(err);
+            })
+        }
+
+    }
+
+    if (loginAs.trim() === '') {
+        return (
+            <LoginOption loginAs={loginAs} setLoginAs={setLoginAs} />
+        )
     }
     return (
+
         <div className='login-main'>
-            {/* <h1>Now, setup your account 🔐</h1> */}
+            {console.log({ loginAs })}
             <div className="login-container">
                 <p>Log In</p>
                 <form className='login-form' action="">

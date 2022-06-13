@@ -13,7 +13,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
-import { capitalize } from 'lodash';
+import { capitalize, reject } from 'lodash';
 import { CircularProgress } from '@mui/material';
 import MenuBar from '../Components/MenuBar';
 import List from '@mui/material/List';
@@ -23,7 +23,8 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
-
+import AddIcon from '@mui/icons-material/Add';
+import * as XLSX from 'xlsx';
 
 const style2 = {
     position: 'absolute',
@@ -55,6 +56,7 @@ function ParticularCourse() {
     const [courseDescription, setCourseDescription] = useState('');
     const [loading, setloading] = useState(false);
     const [videos, setVideos] = useState([]);
+    const [items, setItems] = useState([]);
 
     const handleClose = (e) => {
         e.preventDefault();
@@ -161,6 +163,42 @@ function ParticularCourse() {
         }
     }
 
+
+    const handleExcel = (file) => {
+        // e.preventDefault();
+        const promise = new Promise((resolve, reject) => {
+            const filereader = new FileReader();
+            filereader.readAsArrayBuffer(file);
+
+            filereader.onload = (e) => {
+                const bufferarray = e.target.result;
+                const wb = XLSX.read(bufferarray, { type: 'buffer' });
+                const wsname = wb.SheetNames[0];
+                const ws = wb.Sheets[wsname];
+                const data = XLSX.utils.sheet_to_json(ws);
+
+                resolve(data);
+            };
+
+            filereader.onerror = (err) => {
+                reject(err);
+            };
+
+
+        });
+
+        promise.then((d) => {
+            setItems(d);
+        })
+
+
+    }
+
+    useEffect(() => {
+        console.log(items);
+    }, [items]);
+
+
     if (loading) {
         return <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <CircularProgress />
@@ -173,6 +211,7 @@ function ParticularCourse() {
             <Box>
                 <MenuBar />
             </Box>
+            {/* {console.log(items)} */}
             {/* sx={{ width: '80vw', height: '100%', position: 'absolute', right: '0%' }} */}
             <div style={{ width: '80vw', height: '100%', overflowX: 'hidden', position: 'absolute', right: '0%', display: 'flex', justifyContent: 'center', flexDirection: 'column', padding: '0' }}>
 
@@ -220,10 +259,18 @@ function ParticularCourse() {
                     }
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '10%' }}>
-                    <Button sx={{ marginBottom: '4%', width: '80%' }} variant='contained' onClick={(e) => {
+                    <Button sx={{ margin: '2%', marginBottom: '4%' }} variant='contained' onClick={(e) => {
                         e.preventDefault();
                         setVideoModal(true)
-                    }}> <CloudUploadIcon /> &nbsp; Add Video Lesson</Button>
+                    }}> <CloudUploadIcon /> &nbsp; Upload Video Lesson</Button>
+
+                    <label style={{ color: 'white', borderRadius: '2px', padding: '2%', margin: '2%', marginBottom: '4%', cursor: 'pointer', background: 'blue' }}>
+                        <Typography><AddIcon />&nbsp;Add Quiz</Typography>
+                        <input type="file" accept="*.csv" hidden onChange={(e) => handleExcel(e.target.files[0])}>
+                            {/* <Button sx={{ margin: '2%', marginBottom: '4%' }} variant='contained'><AddIcon />&nbsp;Add Quiz</Button> */}
+                        </input>
+                    </label>
+
 
                 </Box>
 
@@ -265,8 +312,8 @@ function ParticularCourse() {
                     </Box>
 
                 </Modal>
-            </div>
-        </Box>
+            </div >
+        </Box >
 
     )
 }

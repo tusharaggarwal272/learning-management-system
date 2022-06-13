@@ -9,6 +9,7 @@ const authRouter = require('./routers/authRouter')
 const courseRouter = require('./routers/courseRouter');
 const videoRouter = require('./routers/videoRouter');
 const path = require('path');
+const quizRouter = require("./routers/quizRouter")
 
 
 app.use(express.json());
@@ -19,6 +20,7 @@ app.use('/api/users', userRouter);
 app.use('/users/verification', authRouter);
 app.use('/api/courses', courseRouter);
 app.use('/api/courses/videos', videoRouter);
+app.use("/api/courses/quiz", quizRouter)
 // app.get('/', (req, res) => {
 //     console.log("Hello from world");
 // })

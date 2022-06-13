@@ -36,15 +36,26 @@ const s3 = new AWS.S3(awsconfig);
 // const s3 = new S3Client(config);
 
 
+router.get('/allcourses', async (req, res) => {
+    try {
+        const allcourses = await Course.find({}).populate('chapters', 'quizzes');
+        return res.status(200).json(allcourses);
+    } catch (error) {
+        console.log(error.message);
+        return res.status(400).json({ msg: error.message });
+
+    }
+})
+
 router.post('/user/courses/:useremail/newcourse', async (req, res) => {
     try {
         // console.log(req.params);
         // console.log(req.body);
-        const { coursename } = req.body;
+        const { coursename, overview, price } = req.body;
 
         const user = await usermodel.findOne({ email: req.params.useremail });
         console.log(user);
-        const courseCreating = await Course.create({ name: coursename, owner: user.username });
+        const courseCreating = await Course.create({ name: coursename, owner: user.username, overview, price });
 
         await user.courses.push(courseCreating);
         await user.save();
@@ -72,6 +83,21 @@ router.post('/user/courses/:useremail/newchapter', async (req, res) => {
     } catch (error) {
         return res.status(400).send(error.message);
 
+    }
+});
+
+router.put('/publishunpublishcourse', async (req, res) => {
+    console.log("changing the course detail status to make it as pubished or unpublished");
+    try {
+        const { courseid } = req.body;
+        const coursedetail = await Course.findById(courseid);
+        coursedetail.published = !coursedetail.published;
+
+        await coursedetail.save();
+        return res.status(200).json(coursedetail);
+
+    } catch (error) {
+        return res.status(200).json({ msg: error.message });
     }
 });
 

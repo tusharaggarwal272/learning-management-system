@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const userSchema = new mongoose.Schema({
+const studentSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -31,20 +31,15 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    courses: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Course'
-        }
-    ],
     role: {
         type: String,
-        default: 'instructor',
-        enum: ['instructor', 'admin']
+        default: 'student',
+        enum: ['student']
     }
-
 }, {
     timestamps: true
-})
+});
 
-module.exports = mongoose.model('User', userSchema);
+const Student = mongoose.model('Student', studentSchema);
+
+module.exports = Student;

@@ -10,17 +10,21 @@
     "@material-ui/styles": "^4.11.5",
     "@mui/icons-material": "^5.6.1",
     "@mui/material": "^5.6.1",
+    "@mui/x-data-grid": "^5.12.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
+    "@tinymce/tinymce-react": "^4.1.0",
     "axios": "^0.26.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.4.0",
+    "react-media": "^1.10.0",
     "react-pro-sidebar": "^0.5.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "5.0.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",

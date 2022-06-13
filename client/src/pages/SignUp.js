@@ -3,12 +3,13 @@ import './SignUp.css'
 import Login from './Login.js'
 import Validation from '../Validation'
 import axios from 'axios';
-import { Button } from '@mui/material'
+import { Button, TextField, Typography } from '@mui/material'
 import { Box } from '@mui/system';
 
 function SignUp() {
 
   const [info, setInfo] = useState({
+    role: '',
     fullname: "",
     email: "",
     number: "",
@@ -26,6 +27,7 @@ function SignUp() {
   }
 
   const [errors, setErrors] = useState({
+
     fullname: '',
     email: '',
     number: '',
@@ -38,7 +40,7 @@ function SignUp() {
     // setErrors(Validation(info));
     // if (errors.password == '' && errors.name == '' && errors.number == '' && errors.email == '') {
     //   console.log("in axios making request")
-    axios.post('/api/users/register', info).then((res) => {
+    axios.post(`/api/users/register/${info.role}`, info).then((res) => {
       console.log(res);
       // window.open('/login')
     }).catch((err) => {
@@ -49,10 +51,15 @@ function SignUp() {
   }
   return (
     <div className='signUp-main'>
+      {console.log(info)}
       <h1>Now, setup your account 🔐</h1>
       <div className="signUp-container">
         <form className='signUp-form' action="">
+          <Box sx={{ display: 'flex', width: '90%', justifyContent: 'space-around' }}>
+            <Box sx={{ width: '30%', color: info.role === "Student" ? 'white' : 'black', background: info.role === "Student" ? 'blue' : 'aliceblue', padding: '2%', cursor: 'pointer' }} onClick={(e) => setInfo({ ...info, role: 'Student' })}> <Typography>Student</Typography></Box>
 
+            <Box sx={{ width: '30%', color: info.role === "Instructor" ? 'white' : 'black', background: info.role === "Instructor" ? 'blue' : 'aliceblue', padding: '2%', cursor: 'pointer' }} onClick={(e) => setInfo({ ...info, role: 'Instructor' })}> <Typography>Instructor</Typography></Box>
+          </Box>
           <div className="signUp-field">
             <label htmlFor="" className="signUp-label">Your Name</label>
             <input
@@ -66,7 +73,7 @@ function SignUp() {
 
           <div className="signUp-field">
             <label htmlFor="" className="signUp-label">Email</label>
-            <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
               <input
                 type="email"
                 name='email'
@@ -84,14 +91,14 @@ function SignUp() {
             {/* <div className="signUp-mob">
               <p>+91</p>
             </div> */}
-            <Box sx={{display:'flex',flexDirection:'row',width:'100%'}}>
-            <input
-              type="tel"
-              name='number'
-              value={info.number}
-              className="signUp-input"
-              onChange={handleChange} />
-            {/* <Button>Get OTP</Button> */}
+            <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+              <input
+                type="tel"
+                name='number'
+                value={info.number}
+                className="signUp-input"
+                onChange={handleChange} />
+              {/* <Button>Get OTP</Button> */}
             </Box>
             {errors.number && <p className='signUp-error'>{errors.number}</p>}
           </div>
@@ -110,8 +117,8 @@ function SignUp() {
           <button onClick={handleSignUp} className='signUp-btn'>Create My Account</button>
           <a href="/login">I already have an account, Log In</a>
         </form>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
 export default SignUp

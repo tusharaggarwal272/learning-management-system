@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Owner.css';
 import EmailIcon from '@mui/icons-material/Email';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
@@ -6,8 +6,19 @@ import InfoIcon from '@mui/icons-material/Info';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import MenuBar from '../Components/MenuBar';
 import { Box } from '@mui/system';
-
+import { capitalize } from 'lodash'
+// import useHistor
 function Owner() {
+    const [user, setUser] = useState({});
+
+    if (!user) {
+        // history.push('/login')
+        window.location.href = '/login';
+    }
+
+    useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem('user')));
+    }, [])
     return (
         <Box sx={{ position: 'relative', display: 'flex', width: '100vw', height: '100vh', overflowX: 'hidden' }}>
             <Box>
@@ -36,14 +47,14 @@ function Owner() {
                         </div>
                     </div>
                     <div className="owner-list">
-                        <h1>John Patt</h1>
+                        <h1>{capitalize(user.name)}</h1>
                         <div className='owner-email'>
                             <div className='owner-email-icon'><EmailIcon /></div>
-                            <div className='owner-email-info'>john@gamil.com</div>
+                            <div className='owner-email-info'>{user.email}</div>
                         </div>
                         <div className='owner-mobile'>
                             <div className='owner-mobile-icon'><LocalPhoneIcon /></div>
-                            <div className='owner-mobile-info'> +91-6745238756</div>
+                            <div className='owner-mobile-info'> +91-{user.contact}</div>
 
                         </div>
                         <div className="owner-note">

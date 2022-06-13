@@ -8,6 +8,7 @@ import Modal from '@mui/material/Modal';
 import { Input } from '@mui/material';
 import { TextField } from '@mui/material';
 // import { TextareaAutosize } from '@mui/material';
+import { capitalize } from 'lodash';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { Button } from '@mui/material';
@@ -16,6 +17,7 @@ import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutli
 import MenuBar from '../Components/MenuBar';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import LinearProgress from '@mui/material/LinearProgress';
+import StudentHomepage from './StudentHomepage';
 
 // import { toast } from 'react-toastify'
 import "./Home.css";
@@ -71,6 +73,7 @@ function Home() {
   const [Uploading, setUploading] = useState(false);
   const [UploadVideoButton, SetUploadVideoButton] = useState('Upload Video');
   const [progress, setProgress] = useState(0);
+
   // const handleOpen = () => setOpen(true);
   const handleClose = (e) => {
     e.preventDefault();
@@ -214,6 +217,12 @@ function Home() {
   else {
     window.location.href = '/login'
   }
+
+  if (user && user.role && user.role == "student") {
+    return (
+      <StudentHomepage />
+    )
+  }
   return (
 
     <Box sx={{ position: 'relative', display: 'flex', width: '100vw', height: '100vh', overflowX: 'hidden' }}>
@@ -230,7 +239,7 @@ function Home() {
           <Button sx={{ position: 'absolute', top: '2%', left: '90%' }} onClick={handleLogout}>Logout</Button>
           <div>
             <div className="top-heading">
-              <h1> Hi, Antrixsh 👋</h1>
+              <h1> Hi,{capitalize(user.name)} 👋</h1>
             </div>
 
             <div className="div-1" >

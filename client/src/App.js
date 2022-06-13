@@ -20,6 +20,9 @@ import ParticularCourse from './pages/ParticularCourse';
 import NewChapter from './pages/NewChapter'
 import ParticularChapter from './pages/ParticularChapter';
 import Admin from './pages/Admin';
+import QuizPage from './pages/QuizPage';
+import FinalQuiz from './pages/FinalQuiz';
+import Quiz from './pages/Quiz';
 function App() {
   const user = localStorage.getItem('user');
 
@@ -58,6 +61,9 @@ function App() {
         <Route path="/courses/:courseid" exact component={ParticularCourse} />
         <Route path='/courses/:courseid/newchapter' exact component={NewChapter} />
         <Route path='/courses/:courseid/:chapterid' exact component={ParticularChapter} />
+        <Route path='/quizpage' exact component={QuizPage} />
+        <Route path='/finalquiz' exact component={FinalQuiz} />
+        <Route path='/quiz' exact component={Quiz} />
         {/* </Box> */}
       </BrowserRouter >
     </div>

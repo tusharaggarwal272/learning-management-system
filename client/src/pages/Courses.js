@@ -17,12 +17,16 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import { capitalize } from 'lodash';
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 
 const Courses = () => {
 
     let user = localStorage.getItem('user');
     const [courses, setCourses] = useState([]);
     const [loading, setloading] = useState(false);
+    if (!JSON.parse(localStorage.getItem('user'))) {
+        window.location.href = '/login';
+    }
     useEffect(() => {
         setloading(true);
         if (typeof (user) == 'string') {
@@ -116,16 +120,18 @@ const Courses = () => {
                                                     // image="/static/images/cards/contemplative-reptile.jpg"
                                                     // alt="green iguana"
                                                     />
-                                                    <CardContent>
-                                                        <Typography gutterBottom variant="h5" component="div">
+                                                    <CardContent sx={{ width: '100%' }}>
+                                                        <Typography sx={{ width: '100%' }} textAlign={"start"}>
                                                             {capitalize(course.name)}
                                                         </Typography>
-                                                        <Typography variant="body2" color="#ccc">
+                                                        <Typography color="#ccc">
                                                             {
                                                                 course.published ? "Published" : "Not Published"
 
                                                             }
                                                         </Typography>
+                                                        <Typography textAlign={"end"}><CurrencyRupeeIcon sx={{ fontSize: '1%' }} />{course.price}</Typography>
+
                                                     </CardContent>
                                                 </CardActionArea>
                                             </Card>
