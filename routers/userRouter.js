@@ -86,7 +86,7 @@ router.post('/login/student', async (req, res) => {
         if (user.password === req.body.password)
             return res.status(200).json({
                 name: user.username, email: user.email, contact: user.contact,
-                emailverified: user.emailverified, mobileverified: user.mobileverified, role: user.role, msg: "Login success"
+                emailverified: user.emailverified, mobileverified: user.mobileverified, role: user.role, msg: "Login success", cart: user.cart
             })
         else {
             return res.status(200).json({ msg: "Login failed" })

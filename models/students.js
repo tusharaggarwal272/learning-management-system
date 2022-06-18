@@ -25,7 +25,13 @@ const studentSchema = new mongoose.Schema({
     , emailverified: {
         type: Boolean,
         default: false,
-    }
+    },
+    cart: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Course'
+        }
+    ]
     ,
     mobileverified: {
         type: Boolean,

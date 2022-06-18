@@ -23,26 +23,18 @@ import Admin from './pages/Admin';
 import QuizPage from './pages/QuizPage';
 import FinalQuiz from './pages/FinalQuiz';
 import Quiz from './pages/Quiz';
+import StudentCourse from './pages/StudentCourse';
+
+
 function App() {
   const user = localStorage.getItem('user');
 
-  // if (!user) {
-  //   return <Login />
-  // }
   return (
 
-    // <Box className="App" sx={{ display: 'flex', width: '100%', height: '100%' }}>
 
-    // </Box>
 
     <div className="App">
       <BrowserRouter>
-
-
-        {/* <Box sx={{ position: 'absolute', width: '20%', height: '100%', left: '0%' }}>
-    <MenuBar />
-  </Box> */}
-        {/* <Box sx={{ position: 'absolute', width: '85%', right: '0%' }} > */}
 
         <Route path={'/'} exact component={FrontPage} />
         <Route path={'/admins'} exact component={Admin} />
@@ -64,6 +56,9 @@ function App() {
         <Route path='/quizpage' exact component={QuizPage} />
         <Route path='/finalquiz' exact component={FinalQuiz} />
         <Route path='/quiz' exact component={Quiz} />
+
+
+        <Route path={'/student/course/:courseid'} exact component={StudentCourse} />
         {/* </Box> */}
       </BrowserRouter >
     </div>

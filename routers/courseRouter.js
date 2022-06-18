@@ -38,7 +38,14 @@ const s3 = new AWS.S3(awsconfig);
 
 router.get('/allcourses', async (req, res) => {
     try {
-        const allcourses = await Course.find({}).populate('chapters', 'quizzes');
+        // published: true vale hi send karne h client ko only in the production phase it will be all courses.
+        const allcourses = await Course.find({}).populate({
+            path: 'chapters',
+            populate: {
+                path: 'videos',
+                model: 'Video'
+            }
+        }).populate('quizes');
         return res.status(200).json(allcourses);
     } catch (error) {
         console.log(error.message);
@@ -105,7 +112,13 @@ router.post('/findCourseDetails', async (req, res) => {
     console.log("finding the course to populate with the chapters");
     const { courseid } = req.body;
     try {
-        const courseDetails = await Course.findById(courseid).populate('chapters');
+        const courseDetails = await Course.findById(courseid).populate({
+            path: 'chapters',
+            populate: {
+                path: 'videos',
+                model: 'Video'
+            }
+        }).populate('quizes');
         console.log(courseDetails);
         return res.status(200).json(courseDetails);
     } catch (error) {

@@ -35,6 +35,7 @@ import { Button } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import HomeMaxIcon from '@mui/icons-material/HomeMax';
+import StudentMenuBar from '../Components/StudentMenuBar';
 
 
 const drawerWidth = 240;
@@ -129,140 +130,50 @@ const StudentHomepage = () => {
     };
 
     return (
-        <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            <AppBar position="fixed" open={open}>
-                <Toolbar>
-                    <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-                        {console.log(user)}
-                        {capitalize(user.name)}
-                    </Typography>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="end"
-                        onClick={handleDrawerOpen}
-                        sx={{ ...(open && { display: 'none' }) }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
-            <Main open={open}>
-                <DrawerHeader />
-                {
-                    courses.length > 0 && <Grid container>
+        <StudentMenuBar >
 
-                        {
-                            courses.map((course) => (
-                                <Grid key={course._id} item md={3} sm={12} sx={{ margin: '2%' }}>
-                                    <Card >
-                                        <CardActionArea sx={{ display: 'flex', flexDirection: 'column' }}>
-                                            <CardMedia
-                                                src='https://www.coe.int/documents/9558393/53556644/745932934.jpg/b9ddd436-94a9-40fa-c9b3-0e2db8f26c51'
-                                                component="img"
-                                                height="140"
-                                            // image="/static/images/cards/contemplative-reptile.jpg"
-                                            // alt="green iguana"
-                                            />
-                                            <CardContent sx={{ width: '100%' }}>
-                                                <Typography sx={{ width: '100%' }} textAlign={"start"}>
-                                                    {capitalize(course.name)}
-                                                </Typography>
-                                                <Typography color="#ccc" textAlign={"start"}>
-                                                    Author :
-                                                    {
-                                                        capitalize(course.owner)
+            {
+                courses.length > 0 && <Grid container>
 
-                                                    }
-                                                </Typography>
-                                                <Typography textAlign={"end"}><CurrencyRupeeIcon />{course.price}</Typography>
+                    {
+                        courses.map((course) => (
+                            <Grid key={course._id} item md={3} sm={12} sx={{ margin: '2%' }}>
+                                <Card onClick={(e) => { window.location.href = `/student/course/${course._id}` }}>
+                                    <CardActionArea sx={{ display: 'flex', flexDirection: 'column' }}>
+                                        <CardMedia
+                                            src='https://www.coe.int/documents/9558393/53556644/745932934.jpg/b9ddd436-94a9-40fa-c9b3-0e2db8f26c51'
+                                            component="img"
+                                            height="140"
+                                        // image="/static/images/cards/contemplative-reptile.jpg"
+                                        // alt="green iguana"
+                                        />
+                                        <CardContent sx={{ width: '100%' }}>
+                                            <Typography sx={{ width: '100%' }} textAlign={"start"}>
+                                                {capitalize(course.name)}
+                                            </Typography>
+                                            <Typography color="#ccc" textAlign={"start"}>
+                                                Author :
+                                                {
+                                                    capitalize(course.owner)
 
-                                                <Button variant='contained'>Enroll Now</Button>
+                                                }
+                                            </Typography>
+                                            <Typography textAlign={"end"}><CurrencyRupeeIcon />{course.price}</Typography>
 
-                                            </CardContent>
-                                        </CardActionArea>
-                                    </Card>
+                                            <Button variant='contained'>Enroll Now</Button>
 
-                                </Grid>
-                            ))
-                        }
-                    </Grid>
-                }
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+
+                            </Grid>
+                        ))
+                    }
+                </Grid>
+            }
 
 
-            </Main>
-            <Drawer
-                sx={{
-                    width: drawerWidth,
-                    flexShrink: 0,
-                    '& .MuiDrawer-paper': {
-                        width: drawerWidth,
-                    },
-                }}
-                variant="persistent"
-                anchor="right"
-                open={open}
-            >
-                <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                    </IconButton>
-                </DrawerHeader>
-
-                <List>
-
-                    {['U-Smart Courses'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton to={'/home'}>
-                                <ListItemIcon>
-                                    <HomeMaxIcon />
-                                </ListItemIcon>
-                                <ListItemText primary={text} sx={{ color: 'black' }} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                    {/* <Divider /> */}
-                    {['My Courses'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton to={'/mycourses'}>
-                                <ListItemIcon>
-                                    <LibraryBooksIcon />
-                                </ListItemIcon>
-                                <ListItemText primary={text} sx={{ color: 'black' }} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                    {['Cart'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton >
-                                <ListItemIcon>
-                                    <ShoppingCartIcon />
-                                </ListItemIcon>
-                                <ListItemText primary={text} sx={{ color: 'black' }} />
-
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                    <Divider />
-                    {['Logout'].map((text, index) => (
-                        <ListItem key={text} disablePadding onClick={() => {
-                            localStorage.removeItem('user');
-                            window.location.href = ('/login')
-                        }}>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <LogoutIcon />
-                                </ListItemIcon>
-                                <ListItemText primary={text} sx={{ color: 'black' }} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
-                {/* <Divider /> */}
-
-            </Drawer>
-        </Box>
+        </StudentMenuBar>
     );
 }
 

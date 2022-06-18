@@ -5,9 +5,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import clsx from 'clsx';
 import Divider from '@mui/material/Divider';
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
-import menuItems from './sideBarItems';
+// import menuItems from './sideBarItems';
 import { NavLink as RouterLink } from 'react-router-dom';
-import useStyles from './menuBarStyles';
+import useStyles from '../Components/menuBarStyles';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
@@ -21,9 +21,9 @@ import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import { Box } from '@material-ui/core';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-const MenuBar = (props) => {
+const CollapseVideos = (props) => {
     const [menu, setMenu] = useState({});
-    const { className, ...rest } = props;
+    const { className, chapters, ...rest } = props;
     const classes = useStyles();
     const handleClick = (item) => {
         let newData = { ...menu, [item]: !menu[item] };
@@ -56,9 +56,9 @@ const MenuBar = (props) => {
     //     return { icons.Home };
     // }
     const handleMenu = (children, level = 0) => {
-        return children.map(({ children, name, url, links }) => {
+        return children.map(({ videos, name }) => {
 
-            if (!children) {
+            if (!videos) {
                 // { console.log(children, name, url) }
                 return (
                     <List component="div" disablePadding key={name}>
@@ -75,7 +75,7 @@ const MenuBar = (props) => {
                                     px: 2.5,
                                 }}
                                 component={CustomRouterLink}
-                                to={url}
+
                             >
                                 <ListItemIcon
                                     sx={{
@@ -88,7 +88,7 @@ const MenuBar = (props) => {
                                 >
                                     {icons[name]}
                                 </ListItemIcon>
-                                <ListItemText primary={name} sx={{ opacity: 1, color: 'black' }} />
+                                <ListItemText primary={videos.title} sx={{ opacity: 1, color: 'black' }} />
 
                             </ListItemButton>
                         </ListItem>
@@ -165,41 +165,13 @@ const MenuBar = (props) => {
                 <Box>
                     <List {...rest} >
 
-                        {handleMenu(menuItems.data)}
+                        {handleMenu(chapters)}
                     </List>
                 </Box>
-                <Box>
-                    <List onClick={handleLogout}>
-                        <Divider />
-                        <ListItem className={classes.item}
-                            disableGutters
-                            key={"Logout"}>
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: 'initial',
-                                    px: 2.5,
-                                    color: 'black'
-                                }}
-                            >
-                                <ListItemIcon
-                                    sx={{
-                                        color: 'black'
-                                        // minWidth: 0,
-                                        // mr: 'auto',
-                                        // justifyContent: 'center',
-                                    }}
-                                >
-                                    <LogoutIcon />
-                                </ListItemIcon>
-                                <ListItemText primary={"Logout"} sx={{ opacity: 1 }} />
-                            </ListItemButton>
-                        </ListItem>
-                    </List>
-                </Box>
+
             </Box>
         </Drawer >
     )
 }
 
-export default MenuBar;
+export default CollapseVideos;
